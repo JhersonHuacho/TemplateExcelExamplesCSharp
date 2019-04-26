@@ -11,261 +11,147 @@ namespace ClosedXml.Excel
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("INICIO");
+            pivotLinq();
+            //ExcelNotasFinales objExcelNotasFinales = new ExcelNotasFinales();
+            //objExcelNotasFinales.GenerarExcel_TresAnios_Hasta_PrimeroSecundaria();
+            //objExcelNotasFinales.GenerarExcel_Cero_a_DosAnios();
+            //objExcelNotasFinales.GenerarExcel_Segundo_a_QuintoDeSecundaria();
 
-            Estudiante objEstudiante = new Estudiante();
-            List<Estudiante> objListEstudaintes = objEstudiante.GetEstudiantes();
-
-            //---------------- crear u obtener la plantilla que con la que se va a trabajar --------------
-            string _serverTemp;
-            string _FileName;
-            string plantilla;
-            string pathPlantilla;
-
-            Random random = new Random();
-            int numRandom = random.Next(1000,99999);
-
-            //FileName = $"RegNotasFinales_{entity.Perfil.IdInstitucion + entity.Perfil.Anexo}" +
-            //           $"_{entity.DisenioCurricular}" +
-            //           $"_{entity.Perfil.IdNivelInstitucion.Trim() + entity.AnioAcademico + entity.GradoIe + entity.SecccionIe}" +
-            //           $"_{numAleatorio}.xlsx";
-
-            _FileName = $"RegNotasFinales_{"05674200"}" +
-                       $"_{"20"}" +
-                       $"_{"B0200180401"}" +
-                       $"_{numRandom}.xlsx";
-
-            _serverTemp = Path.Combine("D:\\FHUACHO\\LabGitHub\\TemplateExcelExamplesCSharp\\Console.ClosedXml.Excel", Path.Combine("temp", _FileName));
-            plantilla = "Plantilla_RegistroPorNotasFinales.xlsx";
-            pathPlantilla = Path.Combine("D:\\FHUACHO\\LabGitHub\\TemplateExcelExamplesCSharp\\Console.ClosedXml.Excel", Path.Combine("Plantillas", plantilla));
-            File.Copy(pathPlantilla, _serverTemp, true);
-
-            //----------------- Trabajar con la plantilla seleccionada --------------------------------
-            using (XLWorkbook workbook = new XLWorkbook(_serverTemp))
+            ClosedXml.Excel.ExcelData.BEPerfil perfil = new ClosedXml.Excel.ExcelData.BEPerfil()
             {
-                //------- Cargando los datos a la pestaña Generalidades
-                IXLWorksheet workSheetGeneral = workbook.Worksheets.Where(x => x.Name == "Generalidades").FirstOrDefault();
-                workSheetGeneral.Cell("E5").Value = "0567420" + "-" + "0"; //entity.Perfil.IdInstitucion + entity.Perfil.Anexo;
-                workSheetGeneral.Cell("H5").Value = "Primaria";//entity.Perfil.IdNivelInstitucion;
-                workSheetGeneral.Cell("C6").Value = "JESUS";//entity.Perfil.NombreInstitucion.Replace("'", "");
-                workSheetGeneral.Cell("D8").Value = "2018";// entity.AnioAcademico;
-                workSheetGeneral.Cell("D9").Value = "CURRICULA NACIONAL 2017";//entity.DisenioCurricular;
-                workSheetGeneral.Cell("C10").Value = "PRIMERO";//entity.DescGradoIe;
-                workSheetGeneral.Cell("F10").Value = "A";//entity.DescSeccionIe;
+                IdInstitucion = "0238725",
+                Anexo = "0",
+                IdNivelInstitucion = "F0",
+                DesNivelInstitucion = "Secundaria",
+                NombreInstitucion = "JOSE R. TUESTA RUIZ",
+                AnioAcademico = "2018"
+            };
 
-                //--------Seleccionamos la hoja de trabajo
-                IXLWorksheet worksheet = workbook.Worksheets.Add("NF");
+            var basePath = Directory.GetCurrentDirectory(); //"D:\\FHUACHO\\proyectos59\\v3.19.2\\Web\\Release 1.0\\Web.Siagie2\\";
+            var CodigoModular = "0238725";
+            var Anexo = "0";
+            var DisenioCurricular = "15";
+            var AnioAcademico = 2018;
+            var Nivel = "F0";
+            var GradoIe = "11";
+            var SecccionIe = "01";
+            var EsCicloAvanzado = false;
+            var DescDisenioCurricular = "DISEÑO CURRICULAR NACIONAL 2009";
+            var DescGradoIe = "PRIMERO";
+            var DescSeccionIe = "A";
+            var PermiteCompetenciaAlcanzada = false;            
 
-                //-------- Generamos la cabecera parte 1: datos sin notas
-                worksheet.Cell("A1").Value = "ID";
-                worksheet.Range("A1:A3").Merge();
-                worksheet.Cell("B1").Value = "CodEstudiante";
-                worksheet.Range("B1:B3").Merge();
-                worksheet.Cell("C1").Value = "Nombres";
-                worksheet.Range("C1:C3").Merge();
-
-                //-------- Generamos la cabecera parte 2: datos con notas
-                worksheet.Cell("D1").Value = "C01";
-                worksheet.Range("D1:D2").Merge();
-                worksheet.Cell("D3").Value = "CAC";
-                worksheet.Cell("E1").Value = "C02";
-                worksheet.Range("E1:E2").Merge();
-                worksheet.Cell("E3").Value = "CAC";
-                worksheet.Cell("F1").Value = "C03";
-                worksheet.Range("F1:F2").Merge();
-                worksheet.Cell("F3").Value = "CAC";
-                worksheet.Cell("G1").Value = "C04";
-                worksheet.Range("G1:G2").Merge();
-                worksheet.Cell("G3").Value = "CAC";
-
-                worksheet.Cell("H1").Value = "CAA";
-                worksheet.Range("H1:H3").Merge();
-
-                worksheet.Cell("I1").Value = "Conclusión descriptiva de final del periodo";
-                worksheet.Range("I1:I3").Merge();
-                
-
-                //---------------- le damos el formato a la cabacera -------------------------
-                var rango = worksheet.Range("A1:I3");
-                rango.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                rango.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-                rango.Style.Border.BottomBorderColor = XLColor.Black;             
-                rango.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                rango.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                rango.Style.Font.Bold = true;
-                rango.Style.Fill.BackgroundColor = XLColor.FromArgb(180, 180, 180);
-                //rango.Style.Font.FontName = "Courier New";                
-                //rango.Style.Alignment.WrapText = true;                
-
-                //------------------- Generar la tabla de estudiantes con sus notas ----------------------
-                int nroRow = 4;
-                foreach (var estudiante in objListEstudaintes)
-                {
-                    worksheet.Cell(nroRow, 1).Value = estudiante.Id;
-                    worksheet.Cell(nroRow, 2).Style.NumberFormat.Format = "@";
-                    worksheet.Cell(nroRow, 2).Value = estudiante.CodEstudiante.ToString();
-                    worksheet.Cell(nroRow, 3).Value = estudiante.Nombres;
-                    nroRow++;
-                }
-
-                //------------------------ Data Validation -------------------------------------------------------
-                var options = new List<string>() { "AD","A","B","C" };
-                var validOptions = $"\"{String.Join(",", options)}\"";
-                nroRow = 4;
-                foreach (var estudiante in objListEstudaintes)
-                {
-                    worksheet.Cell(nroRow, 4).DataValidation.List(validOptions, true);
-                    worksheet.Cell(nroRow, 5).DataValidation.List(validOptions, true);
-                    worksheet.Cell(nroRow, 6).DataValidation.List(validOptions, true);
-                    worksheet.Cell(nroRow, 7).DataValidation.List(validOptions, true);
-                    worksheet.Cell(nroRow, 8).DataValidation.List(validOptions, true);
-                    nroRow++;
-                }                               
-
-                //------------------------- Leyenda --------------------------------------------------------
-                worksheet.Cell(nroRow + 2, 2).Value = "LEYENDA";
-                worksheet.Cell(nroRow + 3, 3).Value = new[] 
-                {
-                    "01 = Se comunica oralmente en su lengua materna",
-                    "02 = Lee diversos tipos de texto en su lengua materna",
-                    "03 = Escribe diversos tipos de textos en su lengua materna",
-                    "04 = Crea Proyectos desde los lenguajes del arte"
-                };
-
-                //---------------------------- Le damos formato a la tabla en general --------------------------
-                worksheet.Columns(1, 9).AdjustToContents(); // Ajustamos el ancho de las columnas para que se muestren todos los contenidos
-                //worksheet.Column(9).AdjustToContents(); // Ajustamos el ancho de una columna de acuerdo a su contenido
-                worksheet.Column(9).Width = 100;
-                worksheet.Columns(4, 8).Width = 6;
-
-                Console.WriteLine("ANTES DE GUARDAR");
-                workbook.SaveAs("HelloWorld.xlsx");
-                Console.WriteLine("DESPUES DE GUARDAR");
-            }
-            Console.WriteLine("FIN");
+            //using (ClosedXml.Excel.ExcelData.ExcelNotasFinales objExcelNotasFinalesData =
+            //    new ClosedXml.Excel.ExcelData.ExcelNotasFinales(basePath, perfil, DisenioCurricular, GradoIe, SecccionIe, DescGradoIe, DescSeccionIe, 3))
+            //{
+            //    var notasExcel = new NotasFinalesDA();
+            //    var resultado = new List<ClosedXml.Excel.ExcelData.BEPlantillaNotasExcel>();
+            //    resultado = notasExcel.GetEvaluacionNotasPorEstudianteGeneral(CodigoModular, Anexo, AnioAcademico, Nivel, DisenioCurricular, "", GradoIe, SecccionIe, "");
+            //    objExcelNotasFinalesData.CrearExcelNotas(resultado);
+            //}
+            ClosedXml.Excel.ExcelData.ExcelNotasFinales objExcelNotasFinalesData =
+                new ClosedXml.Excel.ExcelData.ExcelNotasFinales(basePath, perfil, DisenioCurricular, DescDisenioCurricular, GradoIe, SecccionIe, DescGradoIe, DescSeccionIe, 3);
+            var notasExcel = new NotasFinalesDA();
+            var resultado = new List<ClosedXml.Excel.ExcelData.BEPlantillaNotasExcel>();
+            resultado = notasExcel.GetEvaluacionNotasPorEstudianteGeneral(CodigoModular, Anexo, AnioAcademico, Nivel, DisenioCurricular, "", GradoIe, SecccionIe, "");
+            objExcelNotasFinalesData.CrearExcelNotas(resultado);
             Console.ReadLine();
+
+        }   
+        
+        private static void pivotLinq()
+        {
+            List<Visit> Visits = new List<Visit>
+            {
+                new Visit(1, new DateTime(2015,2,24), "A"),
+                new Visit(2, new DateTime(2015,2,23), "S"),
+                new Visit(2, new DateTime(2015,2,24), "D"),
+                new Visit(4, new DateTime(2015,2,22), "S"),
+                new Visit(2, new DateTime(2015,2,22), "A"),
+                new Visit(2, new DateTime(2015,2,22), "B"),
+                new Visit(3, new DateTime(2015,2,23), "A"),
+                new Visit(1, new DateTime(2015,2,23), "A"),
+                new Visit(1, new DateTime(2015,2,24), "D"),
+                new Visit(4, new DateTime(2015,2,24), "S"),
+                new Visit(4, new DateTime(2015,2,22), "S"),
+                new Visit(2, new DateTime(2015,2,24), "S"),
+                new Visit(3, new DateTime(2015,2,24), "D")
+            };
+
+            Console.WriteLine("");
+            foreach (var visit in Visits)
+            {
+                Console.WriteLine(visit.PersonelId + " " + visit.VisitDate + " " + visit.VisitTypeId);
+            }
+            Console.WriteLine("");
+            //static headers
+            var qry = Visits.GroupBy(v => new { v.VisitDate, v.PersonelId })
+                .Select(g => new {
+                    VisitDate = g.Key.VisitDate,
+                    PersonelId = g.Key.PersonelId,
+                    A = g.Where(d => d.VisitTypeId == "A").Count(),
+                    B = g.Where(d => d.VisitTypeId == "B").Count(),
+                    D = g.Where(d => d.VisitTypeId == "D").Count(),
+                    S = g.Where(d => d.VisitTypeId == "S").Count()
+                });
+
+            foreach (var q in qry)
+            {
+                Console.WriteLine(Convert.ToString(q.PersonelId) + " " + Convert.ToString(q.VisitDate) + " " + q.A + " " + q.B + " " + q.D + " " + q.S);
+            }
+            Console.WriteLine("");
+            //dynamic headers
+            var qry1 = Visits.GroupBy(v => new { v.VisitDate, v.PersonelId })
+                .Select(g => new {
+                    PersonelId = g.Key.PersonelId,
+                    VisitDate = g.Key.VisitDate,
+                    subject = g.GroupBy(f => f.VisitTypeId).Select(m => new { Sub = m.Key, Score = m.Count() })
+                });
+
+            var totalHead = Visits.Select(item => item.VisitTypeId ).Distinct().Count();
+
+            foreach (var q in qry1)
+            {
+                foreach (var item in q.subject)
+                {
+                    Console.WriteLine(Convert.ToString(q.PersonelId) + " " + Convert.ToString(q.VisitDate) + " " + item.Sub + " " + item.Score);
+                }                
+            }
+
         }
 
-        public class Estudiante
+        // class definition
+        public class Visit
         {
-            public string Id { get; set; }
-            public string CodEstudiante { get; set; }
-            public string Nombres { get; set; }
+            private int id = 0;
+            private DateTime vd;
+            private string vt = string.Empty;
 
-            public List<Estudiante> GetEstudiantes()
+            public Visit(int _id, DateTime _vd, string _vt)
             {
-                List<Estudiante> objListEstudaintes = new List<Estudiante>()
-                {
-                    new Estudiante()
-                    {
-                        Id = "30789573",
-                        CodEstudiante = "00000078731816",
-                        Nombres = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Estudiante()
-                    {
-                        Id = "31380891",
-                        CodEstudiante = "00000078737991",
-                        Nombres = "ASCONA REYES JUAN EDGAR"
-                    },
-                    new Estudiante()
-                    {
-                        Id = "30942964",
-                        CodEstudiante = "00000081250381",
-                        Nombres = "CANALES AVENDAÑO CELESTE SARAI"
-                    },
-                    new Estudiante()
-                    {
-                        Id = "30942937",
-                        CodEstudiante = "00000078731619",
-                        Nombres = "PISCO MEJIA ADERLY THIAGO"
-                    }
-                };
+                id = _id;
+                vd = _vd;
+                vt = _vt;
+            }
 
-                return objListEstudaintes;
+            public int PersonelId
+            {
+                get { return id; }
+                set { id = value; }
+            }
+
+            public DateTime VisitDate
+            {
+                get { return vd; }
+                set { vd = value; }
+            }
+
+            public string VisitTypeId
+            {
+                get { return vt; }
+                set { vt = value; }
             }
         }
 
-        public class Areas
-        {
-            public string IdArea { get; set; }
-            public string AbrArea { get; set; }
-            public string DescArea { get; set; }
-
-            public List<Areas> GetEstudiantes()
-            {
-                List<Areas> objListEstudaintes = new List<Areas>()
-                {
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "ART_Y_CULT",
-                        DescArea = "ARTE Y CULTURA"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "CAST_SEGNL",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "CIENC_TEC",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "COMU",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "EFIS",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "EREL",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "INGLES_EXT",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "MATE",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "PPSS",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "GEST_AUTO",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    },
-                    new Areas()
-                    {
-                        IdArea = "30789573",
-                        AbrArea = "DESEN_TIC",
-                        DescArea = "ARIAS ESCOBAR JESUS ENRIQUE"
-                    }
-                };
-
-                return objListEstudaintes;
-            }
-        }
     }
 }

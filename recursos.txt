@@ -1,7 +1,40 @@
+https://www.variablenotfound.com/2013/03/generar-archivos-excel-como-un-senor.html
+https://www.fixedbuffer.com/index.php/2018/09/11/generacion-de-ficheros-excel-con-closedxml/
+https://www.fixedbuffer.com/index.php/2018/12/18/closedxml-dar-formato-a-nuestros-xlsx/
+https://camilogaraventa.wordpress.com/2016/08/10/documentos-excel-con-closedxml/
+https://csharp.hotexamples.com/examples/ClosedXML.Excel/XLWorkbook/SaveAs/php-xlworkbook-saveas-method-examples.html
 
+https://stackoverflow.com/questions/30341506/create-password-protected-excel-file-using-closedxml-library
 
 https://github.com/ClosedXML/ClosedXML/wiki/Using-Colors
 https://github.com/ClosedXML/ClosedXML/wiki/Styles-Border
 https://github.com/ClosedXML/ClosedXML/wiki/Column-Width-and-Styles
 https://github.com/ClosedXML/ClosedXML/wiki/Data-Validation
 https://github.com/ClosedXML/ClosedXML/wiki/Basic-Table
+https://github.com/ClosedXML/ClosedXML/wiki/Data-Types
+https://github.com/ClosedXML/ClosedXML/wiki/Text-with-numbers-are-getting-converted-to-numbers
+https://github.com/ClosedXML/ClosedXML/wiki/Cell-Values
+
+https://github.com/ClosedXML/ClosedXML/wiki/Copying-IEnumerable-Collections
+https://github.com/ClosedXML/ClosedXML/wiki/Inserting-Data
+
+https://stackoverflow.com/questions/29655498/reading-from-excel-file-using-closedxml
+https://es.stackoverflow.com/questions/199101/out-of-memory-al-leer-un-archivo-excel-con-closedxml
+
+-- revisar estos links, para poder hacer wraptext a celdas combinadas
+https://stackoverflow.com/questions/33831432/autoheight-on-rows-containing-merged-cells-with-wrapped-text
+https://www.extendoffice.com/documents/excel/2342-excel-autofit-row-height-merged-cells.html
+https://github.com/ClosedXML/ClosedXML/issues/287
+https://stackoverflow.com/questions/23648469/using-closedxml-how-to-adjust-row-height-to-content/23682512
+https://github.com/ClosedXML/ClosedXML/wiki/Adjust-Row-Height-and-Column-Width-to-Contents
+
+
+--POO
+https://csharp.com.es/poo-ejercicio-clases-y-objetos/
+http://csharp-facilito.blogspot.com/2013/07/ejercicios-con-clases-en-c-sharp.html
+https://aprende-csharp.blogspot.com/2010/02/poo-en-c-contenido-basico-i.html
+
+
+ServerTemp         = "D:\\FHUACHO\\LabGitHub\\TemplateExcelExamplesCSharp\\Console.ClosedXml.Excel\\bin\\Debug\\temp\\RegNotasFinales_02387250_15_F020181101_82694.xlsx"
+PathPlantillaExcel = "D:\\FHUACHO\\LabGitHub\\TemplateExcelExamplesCSharp\\Console.ClosedXml.Excel\\bin\\Debug\\Plantillas\\Plantilla_RegistroPorNotasFinales.xlsx"    
+ServerTemp 	   = "D:\\FHUACHO\\LabGitHub\\TemplateExcelExamplesCSharp\\Console.ClosedXml.Excel\\bin\\Debug\\temp\\RegNotasFinales_02387250_15_F020181101_82694.xlsx"
